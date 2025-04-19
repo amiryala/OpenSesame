@@ -1,20 +1,35 @@
+import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { RootNavigator } from './src/navigation/RootNavigator';
+import { AuthProvider } from './src/contexts/AuthContext';
+import { PasswordProvider } from './src/contexts/PasswordContext';
+
+// Create a custom theme with Open Sesame colors
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#4a148c', // Deep purple
+    accent: '#f50057',  // Pink
+  },
+};
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <StatusBar style="light" />
+          <AuthProvider>
+            <PasswordProvider>
+              <RootNavigator />
+            </PasswordProvider>
+          </AuthProvider>
+        </NavigationContainer>
+      </PaperProvider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
